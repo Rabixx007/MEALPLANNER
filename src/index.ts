@@ -104,3 +104,8 @@ const port = process.env.PORT || 8080;
 app.listen(port, () => {
   log(`listening on port ${port}`);
 });
+
+// ... your existing express code, mongoose connection, and routes ...
+
+// Add this at the very bottom of your file:
+module.exports = app; 
