@@ -54,9 +54,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../client/build")));
 app.use(
   cors({
-    origin: "http://localhost:8081",
+    origin: ["http://localhost:3000", "http://localhost:8081"],
+    credentials: true
   })
 );
+
 
 app.use(
   session({

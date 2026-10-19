@@ -4,6 +4,7 @@ import { login, createUser } from "../../actions/actions";
 import { Button, TextField, FormControl, Typography } from "@mui/material";
 import { Person, PersonAdd } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
+// @ts-ignore CSS imports are handled by the bundler.
 import "./AuthForm.css";
 import { User } from "../../types/dbtypes";
 

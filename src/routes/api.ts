@@ -8,7 +8,7 @@ const router = express.Router();
 
 const { ObjectID } = require("mongodb");
 const bodyParse = require("body-parser");
-const { mongoose } = require("../db/mongoose");
+import mongoose from "../db/mongoose";
 const { User } = require("../db/user");
 
 import session from "express-session";
