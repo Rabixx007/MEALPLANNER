@@ -34,11 +34,18 @@ function isMongoError(error: Error) {
   );
 }
 
-const mongoChecker = (req: Request, res: Response, next: NextFunction) => {
+const mongoChecker = async (req: Request, res: Response, next: NextFunction) => {
+  if (mongoose.connection.readyState === 2) {
+    try {
+      await mongoose.connection.asPromise();
+    } catch (e) {
+      log("Issue connecting to mongoose:", e);
+    }
+  }
   if (mongoose.connection.readyState !== 1) {
     log("Issue with mongoose connection");
     res.status(500).send("Internal server error");
-    return false;
+    return;
   }
   next();
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../../components/general/NavBar";
 import {
   Typography,
@@ -17,8 +17,7 @@ import {
   deleteMealHistory,
   deleteIngredientHistory,
 } from "../../actions/actions";
-import { Ingredient, Meal } from "../../types/dbtypes";
-import { useFormControl } from "@mui/material";
+import { Meal } from "../../types/dbtypes";
 
 interface Props {
   uid: string;
@@ -29,7 +28,6 @@ export default function Profile(props: Props) {
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [meals, setMeals] = useState<Meal[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const firstRender = useRef(true);
   useEffect(() => {
     getData(props.uid, setUsername, setIngredients, setMeals, setIsLoading);
   }, [props.uid]);

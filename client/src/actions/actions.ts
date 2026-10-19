@@ -1,7 +1,7 @@
 import { Ingredient, Meal } from "../types/dbtypes";
 
 const log = console.log;
-const api_url = process.env.API_URL || "http://localhost:8080";
+const api_url = process.env.REACT_APP_API_URL || "";
 
 export const checkLoggedIn = (setUid: (uid: string) => void) => {
   return fetch(`${api_url}/api/checkloggedin`)

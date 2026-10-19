@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import { uid } from "react-uid";
 import { getUserById } from "../../actions/actions";
@@ -15,7 +15,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { ChevronLeft, FileCopy, Print, Email } from "@mui/icons-material";
-import convert, { Time, Unit } from "convert-units";
+import convert, { Unit } from "convert-units";
 import "./ShoppingModal.css";
 import { Ingredient, Meal } from "../../types/dbtypes";
 
@@ -237,16 +237,4 @@ const handleCopy = (need: Need) => {
 
 const handleEmail = (need: Need) => {
   window.open(`mailto:?subject=Groceries&body=${getText(need)}`, "_blank");
-};
-
-const handleTimeChange = (
-  event: FormEvent,
-  props: Props,
-  time: number,
-  setNeed: (need: Need) => void,
-  setTime: (n: number) => void
-) => {
-  setTime(parseInt((event.target as HTMLInputElement).value));
-  //@ts-ignore TEST THIS pls
-  this.getData(props, time, setNeed);
 };

@@ -15,9 +15,9 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "immer": "^9.0.15",
     "jquery": "^3.5.1",
+    "mealplanner": "file:..",
     "react": "^18.2.0",
     "react-calendar": "^3.3.0",
-    "react-document-meta": "^3.0.0-beta.2",
     "react-dom": "^18.2.0",
     "react-modal": "^3.14.4",
     "react-router-dom": "^6.3.0",
@@ -26,6 +26,7 @@
     "typescript": "^4.4.4",
     "web-vitals": "^3.0.1"
   },
+  "proxy": "http://localhost:8080",
   "scripts": {
     "docker:build": "docker build . -t jlambertazzo/mp-client",
     "docker:run": "docker run -p 8081:8081 -d jlambertazzo/mp-client",

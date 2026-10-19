@@ -4,6 +4,8 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
+    "build": "npm --prefix client install && npm --prefix client run build",
+    "start": "ts-node src/index.ts",
     "docker:build": "docker build . -t jlambertazzo/mp-server",
     "docker:run": "docker run -p 8080:8080 -d jlambertazzo/mp-server",
     "docker:api:up": "npm run docker:build && npm run docker:run",

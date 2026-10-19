@@ -13,6 +13,7 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const app = express();
+app.set("trust proxy", 1);
 
 const session = require("express-session");
 
@@ -51,26 +52,29 @@ function requireHTTPS(req: Request, res: Response, next: NextFunction) {
 // set up body parse middleware and static folder
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "../client/build")));
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:8081"],
-    credentials: true
+    origin: true,
+    credentials: true,
   })
 );
 
+const mongoURI =
+  process.env.MONGODB_URI || "mongodb://localhost:27017/MealPlanner";
 
 app.use(
   session({
-    secret: "a hardcoded secret",
+    secret: process.env.SESSION_SECRET || "a hardcoded secret",
     resave: false,
     saveUninitialized: false,
     cookie: {
-      expires: 36000000,
-      sameSite: "strict",
+      maxAge: 36000000,
+      sameSite: "lax",
       httpOnly: true,
     },
-    store: new MongoStore({ client: mongoose.connection.getClient() }),
+    store: MongoStore.create({
+      mongoUrl: mongoURI,
+    }),
     unset: "destroy",
   })
 );
@@ -87,25 +91,28 @@ app.get("/logout", (req: Request, res: Response) => {
   res.status(301).redirect("/");
 });
 
-app.get(
-  "*",
-  requireHTTPS,
-  authenticate,
-  unauthenticate,
-  (req: Request, res: Response) => {
-    if (!validUrls.includes(req.url)) {
-      res.status(404).send("404 not found :(");
+// In local development, serve static client files and listen on port
+if (!process.env.VERCEL) {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+
+  app.get(
+    "*",
+    requireHTTPS,
+    authenticate,
+    unauthenticate,
+    (req: Request, res: Response) => {
+      if (!validUrls.includes(req.url)) {
+        res.status(404).send("404 not found :(");
+      }
+      res.sendFile(path.join(__dirname, "../client/build/index.html"));
     }
-    res.sendFile(path.join(__dirname, "../client/build/index.html"));
-  }
-);
+  );
 
-const port = process.env.PORT || 8080;
-app.listen(port, () => {
-  log(`listening on port ${port}`);
-});
+  const port = process.env.PORT || 8080;
+  app.listen(port, () => {
+    log(`listening on port ${port}`);
+  });
+}
 
-// ... your existing express code, mongoose connection, and routes ...
-
-// Add this at the very bottom of your file:
+export default app;
 module.exports = app; 
