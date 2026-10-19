@@ -1,27 +1,23 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "services": {
-    "app": {
-      "root": ".",
-      "framework": "express"
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node"
     },
-    "client": {
-      "root": "client",
-      "framework": "create-react-app"
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build"
     }
-  },
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": {
-        "service": "app"
-      }
+      "destination": "/"
     },
     {
       "source": "/(.*)",
-      "destination": {
-        "service": "client"
-      }
+      "destination": "client/$1"
     }
   ]
 }
